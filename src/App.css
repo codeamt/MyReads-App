@@ -2,57 +2,75 @@ html, body, .root {
   height: 100%;
 }
 body {
-  line-height: 1.5;
+  line-height: .95;
 }
 body, .app {
-  background: white;
+  /*background-image: url('icons/bookcase.png');
+  background-size: 48%;*/
+  background: lightgray;
+}
+
+@media (max-width: 600px) {
+  body, .app {
+   background-size: 70%;
+ }
 }
 
 /* main page */
 
 .list-books-title {
-  padding: 10px 0;
-  background: #2e7c31;
-  text-align: center;
+  padding: 20px 50px;
+  margin-bottom: 20px;
+  /*background: #111 #2e7c31*/;
+  text-align: left;
+  height: 30px;
+  border-bottom: 20px solid #111;
 }
 .list-books-title h1 {
-  font-weight: 400;
-  margin: 0;
-  color: white;
+  font-weight: lighter;
+  color: #111;
+  margin-bottom: 20px !important;
 }
 
 .list-books-content {
-  padding: 0 0 80px;
   flex: 1;
+  bottom: 0;
 }
 
 .bookshelf {
-  padding: 0 10px 20px;
+  padding: 0 10px 10px;
+  height: 310px;
 }
 
-@media (min-width: 600px) {
-  .bookshelf {
-    padding: 0 20px 40px;
-  }
-}
 
 .bookshelf-title {
-  border-bottom: 1px solid #dedede;
+  width: 70%;
+  margin: 0 auto;
+  background: #111;
+  padding: 15px;
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 3px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 3px 5px 6px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  box-shadow: 0 8px 6px -6px black;
 }
 .bookshelf-books {
   text-align: center;
+  margin-top: 10px;
+
 }
 
-.open-search  {
+.open-search {
   position: fixed;
   right: 25px;
   bottom: 25px;
+}
+.open-search a {
   display: block;
   width: 50px;
   height: 50px;
   border-radius: 50%;
   background: #2e7d32;
-  background-image: url('./icons/add.svg');
+  background-image: url('./icons/search.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 28px;
@@ -71,10 +89,12 @@ body, .app {
   display: flex;
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 0 6px rgba(0,0,0,0.23);
 }
+
 .search-books-input-wrapper {
   flex: 1;
   background: #e9e;
 }
+
 .search-books-bar input {
   width: 100%;
   padding: 15px 10px;
@@ -113,7 +133,7 @@ body, .app {
   flex-wrap: wrap;
 }
 .books-grid li {
-  padding: 10px 15px;
+  padding: 0px 15px;
   text-align: left;
 }
 
@@ -129,6 +149,7 @@ body, .app {
 }
 .book-authors {
   color: #999;
+  margin-bottom: 10px;
 }
 
 .book-top {

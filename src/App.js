@@ -1,83 +1,51 @@
-import React from 'react';
-import * as BooksAPI from './BooksAPI';
-import './App.css';
-import Shelf from './Shelf';
-import Search from './SearchBooks';
-import { Link, Route } from 'react-router-dom';
+// @flow
+import React from "react";
+import { Route } from "react-router-dom";
+
+import "./App.css";
+import SearchPage from "./SearchPage";
+import ListBooks from "./ListBooks";
+import * as BooksAPI from "./BooksAPI";
 
 class BooksApp extends React.Component {
   state = {
     books: []
-  }
+  };
 
-  // get books from API
   componentDidMount() {
-    BooksAPI.getAll().then((books) => {
-      this.setState({ books })
-    })
+    BooksAPI.getAll().then(data => {
+      this.setState({
+        books: data
+      });
+    });
   }
 
-  getBooksWithTheSameShelf(shelfName) {
-    return this.state.books.filter((b) => b.shelf === shelfName)
-  }
+  handleChangeShelf = (book: any, shelf: string) => {
+    BooksAPI.update(book, shelf).then(response => {
+      this.getBooksOnShelf();
+    });
+  };
 
-  moveBooksToNewShelf = (book, newShelf) => {
-    // send updated data to API
-    BooksAPI.update(book, newShelf).then(() => {
-      book.shelf = newShelf;
-
-      // compare the id of old and new books, update state
-      this.setState(state => ({
-        books: this.state.books.filter(b => b.id !== book.id).concat([ book ])
-      }))
-    })
+  getBooksOnShelf() {
+    BooksAPI.getAll().then(data => {
+      this.setState({
+        books: data
+      });
+    });
   }
 
   render() {
     return (
       <div className="app">
-
-        <Route exact path='/' render={() => (
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-            <div className="list-books-content">
-              <Shelf
-                books={this.getBooksWithTheSameShelf("currentlyReading")}
-                shelfTitle="Currently Reading"
-                moveBooksToNewShelf={this.moveBooksToNewShelf}
-              />
-              <Shelf
-                books={this.getBooksWithTheSameShelf("wantToRead")}
-                shelfTitle="Want To Read"
-                moveBooksToNewShelf={this.moveBooksToNewShelf}
-              />
-              <Shelf
-                books={this.getBooksWithTheSameShelf("read")}
-                shelfTitle="Read"
-                moveBooksToNewShelf={this.moveBooksToNewShelf}
-              />
-            </div>
-            <Link
-              to='/search'
-              className="open-search">
-                Add a book
-            </Link>
-          </div>
-        )}/>
-
-        <Route path='/search' render={({history}) => (
-          <Search
-            books={this.state.books}
-            book={this.props.book}
-            moveBooksToNewShelf={this.moveBooksToNewShelf}
-          />
-        )}/>
-
+        <Route exact path="/" render={() => <ListBooks booksOnShelf={this.state.books} />} />
+        <Route
+          path="/search"
+          render={() =>
+            <SearchPage onChangeShelf={this.handleChangeShelf} booksOnShelf={this.state.books} />}
+        />
       </div>
-    )
+    );
   }
 }
 
-export default BooksApp
+export default BooksApp;
